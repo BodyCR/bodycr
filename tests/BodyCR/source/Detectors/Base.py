@@ -47,7 +47,7 @@ class Capture:
     hands = []
     face = []
 
-    def __init__(self, pose=Prefabs.POSE.normal, hands=Prefabs.HANDS.normal, face=Prefabs.FACE.normal, all=Prefabs.ALL.normal, gpu=Prefabs.GPU_ACELERATION) -> None:
+    def __init__(self, pose=Prefabs.POSE.normal.Mount(), hands=Prefabs.HANDS.normal.Mount(), face=Prefabs.FACE.normal.Mount(), all=Prefabs.ALL.normal.Mount(), gpu=Prefabs.GPU_ACELERATION.Mount()) -> None:
         """
             ## Capture
             The constructor of Capture class

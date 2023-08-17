@@ -4,7 +4,7 @@ import BodyCR as cr
 cap = cv2.VideoCapture(0)
 
 capture = cr.BaseCapture.Capture(
-    hands=cr.Prefabs.HANDS.lite,
+    hands=cr.Prefabs.HANDS.lite.Mount(),
 )
 draw = cr.Utils.Draw()
 fps = cr.Utils.FPS()

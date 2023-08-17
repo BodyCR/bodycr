@@ -1,6 +1,9 @@
 import cv2
 import time
 
+def ToPoint(tuple):
+    return Point(tuple[0], tuple[1])
+
 class Point:
     def __init__(self, x, y) -> None:
         self.x = x
@@ -44,10 +47,10 @@ class Draw:
     def PutText(self,text,pos,color=(0,0,255)):
         cv2.putText(self.img, str(text), pos.ToTup(), cv2.FONT_HERSHEY_PLAIN, 5, color, 5)
 
-    def PutLine(self,start,end,color=(0,0,255)):
+    def PutLine(self,start,end,color=(0,0,255),thickness=2):
         start = (int(start.x), int(start.y))
         end = (int(end.x), int(end.y))
-        cv2.line(self.img, start, end, color,2)
+        cv2.line(self.img, start, end, color,thickness)
 
     def PutCircle(self,pos,radius,fill,color=(0,0,255), border=None, borderColor=(0, 0, 0)):
         cv2.circle(self.img, pos.ToTup(), radius, color, fill)
@@ -67,9 +70,10 @@ class Draw:
         for connection in connections:
             if length >= connection[0] and  length >= connection[1]:
                 self.PutLine(
-                    Point(connection[0]),
-                    Point(connection[1]),
-                    self.white
+                    landmarks[connection[0]],
+                    landmarks[connection[1]],
+                    self.white,
+                    1
                 )
 
     def DrawLandmarks(self, landmarks):
@@ -77,8 +81,8 @@ class Draw:
             self.PutCircle(landmark, 3, self.FILL, self.red, border=1, borderColor=self.white)
 
     def DrawComponent(self, landmarks, connections):
-        self.DrawLandmarks(landmarks)
         self.DrawConnections(landmarks, connections)
+        self.DrawLandmarks(landmarks)
 
 class FPS:
     def __init__(self):

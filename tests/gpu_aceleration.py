@@ -3,8 +3,11 @@ import BodyCR as cr
 
 cap = cv2.VideoCapture(0)
 
+gpu_aceleration = cr.Prefabs.GPU_ACELERATION.Set("enable", True)
+
 capture = cr.BaseCapture.Capture(
-    pose=cr.Prefabs.POSE.lite.Mount(),
+    all=cr.Prefabs.ALL.lite.Mount(),
+    gpu=gpu_aceleration.Mount()
 )
 draw = cr.Utils.Draw()
 fps = cr.Utils.FPS()
@@ -16,7 +19,8 @@ while True:
     draw.UpdateImage(img)
     capture.Read(img, cr.Prefabs.DETECT_POSE)
 
-    draw.DrawComponent(capture.pose, cr.Pose.PoseLandmarks.POSE_CONNECTIONS)
+    for landmark in capture.pose:
+        draw.PutCircle(landmark, 3, draw.FILL, draw.red, border=1, borderColor=draw.white)
 
     fps.Update(img)
     cv2.imshow("README Test", img)
