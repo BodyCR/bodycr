@@ -11,3 +11,7 @@
 
     Note: Use separate modules can be a pretty difficult, we recommend use the instead main module subdivision. You can import all submodules since Detector to Modules with an easy way, more simple than write this: `import BodyCR as cr`
 """
+
+FACEMESH_CONNECTIONS = frozenset().union(*[
+
+])

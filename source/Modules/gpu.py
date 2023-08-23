@@ -2,6 +2,9 @@ import tensorflow as tf
 import cv2
 
 def ConfigureGPUs(memory_limit=None, gpu_indices=None, allow_growth=True, per_process_gpu_memory_fraction=None):
+        """
+            Configure the GPU Acceleration
+        """
         print("Searching for GPUs")
         gpus = tf.config.experimental.list_physical_devices('GPU')
 

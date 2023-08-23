@@ -10,23 +10,12 @@
     By convention, import from instead BodyCR.Utils, follow the good practice of use `from BodyCR.Utils import <Required modules>`.
 
     Note: Use separate modules can be a pretty difficult, we recommend use the instead main module subdivision. You can import all submodules since Detector to Modules with an easy way, more simple than write this: `import BodyCR as cr`
-
-    ----------
-
-    ### Build-in Features
-    1. BodyCR Base Module - Have the basic pose recognition
-    2. BodyCR Hands Module - Have the structure of a hand and methods to manage it
-    2. BodyCR FaceMesh Module - Have the basic face mesh recognition
-    3. BodyCR Utils Module:
-        1. Mathb (Math BodyCR) - Have static methods to easily math operations with landmarks, e.g. GetAngle, Normalize...
-        2. Point - The basic thing on BodyCR, represent a point in a 2D plane
-        3. Draw - Allows an easy way to draw forms and texts in the OpenCV Mat
 """
 
 from ..Detectors.configurations import Prefabs
 from ..Modules.gpu import ConfigureGPUs
 from ..Detectors.Pose import PoseDetector, PoseLandmarks
-from ..Detectors.Hand import HandDetector, HandLandmarks
+from ..Detectors.Hand import HandDetector, HandLandmarks, Hand
 from ..Detectors.Face import FaceMeshDetector, FaceMeshLandmarks
 from ..Detectors.Holistic import HolisticDetector
 
@@ -46,8 +35,10 @@ class Capture:
     pose = []
     hands = []
     face = []
+    leftHand = Hand.irreal()
+    rightHand = Hand.irreal()
 
-    def __init__(self, pose=Prefabs.POSE.normal, hands=Prefabs.HANDS.normal, face=Prefabs.FACE.normal, all=Prefabs.ALL.normal, gpu=Prefabs.GPU_ACELERATION) -> None:
+    def __init__(self, pose=Prefabs.POSE.normal.Mount(), hands=Prefabs.HANDS.normal.Mount(), face=Prefabs.FACE.normal.Mount(), all=Prefabs.ALL.normal.Mount(), gpu=Prefabs.GPU_ACELERATION.Mount()) -> None:
         """
             ## Capture
             The constructor of Capture class
@@ -118,7 +109,7 @@ class Capture:
 
             ### Parameters:
                 `img: Mat` - The OpenCV Image
-                `identifier: DetectionIdentifier = Prefabs.DETECT_HOLISTIC` - Especifies the mode of recognition
+                `identifier: DetectionIdentifier = Prefabs.DETECT_ALL` - Especifies the mode of recognition
         """
 
         pose, hand, face = (int(i)==1 for i in indentifier)
@@ -126,10 +117,14 @@ class Capture:
         if pose == True and hand == True and face == True:
             self.pose, hands, self.face = self.__holistic.Read(img)
             self.hands = [hands["left"], hands["right"]]
+            self.leftHand = hands["left"]
+            self.rightHand = hands["right"]
             return
         
         if hand:
             self.hands = self.__hand.Read(img)
+            self.leftHand = self.hands["left"]
+            self.rightHand = self.hands["right"]
         
         if pose:
             self.pose = self.__pose.Read(img)

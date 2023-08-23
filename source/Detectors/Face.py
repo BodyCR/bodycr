@@ -35,4 +35,7 @@ class FaceMeshDetector:
         )
 
     def Read(self, img):
-        result = self.holistic.process(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        """
+            @UNFINISH
+        """
+        result = self.face_mesh.process(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))

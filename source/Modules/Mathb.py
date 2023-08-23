@@ -4,9 +4,20 @@ from ..Modules.Utils import Point
 
 class Mathb:
     @staticmethod
+    def TupToPoint(tuple):
+        return Point(tuple[0], tuple[1])
+
+    @staticmethod
+    def PointToTup(point, toInt=True):
+        return (int(point.x), int(point.y)) if toInt else (point.x, point.y)
+
+    @staticmethod
     def Projection(size1, size2, point) -> tuple:
-        prop_x = np.divide([size1[0]], size2[0])
-        prop_y = np.divide([size1[1]], size2[1])
+        """
+            Project a point in the size 1 to the size 2
+        """
+        prop_x = size1[0] / size2[0]
+        prop_y = size1[1] / size2[1]
 
         if prop_x > prop_y:
             prop_x = prop_y
@@ -20,27 +31,17 @@ class Mathb:
         vector1 = Mathb.Sub(point1, point2)
         vector2 = Mathb.Sub(point3, point2)
 
-        # Cálculo do produto interno dos vetores
         dot_product = vector1.x * vector2.x + vector1.y * vector2.y
 
-        # Normas dos vetores
         magnitude_vector1 = Mathb.Magnitude(vector1)
         magnitude_vector2 = Mathb.Magnitude(vector2)
 
-        # Verifica se os vetores são linearmente dependentes (produto interno igual a 0)
         if magnitude_vector1 * magnitude_vector2 == 0:
             return 0.0
 
-        # Cálculo do cosseno do ângulo entre os vetores usando o produto interno e as normas dos vetores
         angle_cos = dot_product / (magnitude_vector1 * magnitude_vector2)
-
-        # Tratamento para valores fora do intervalo válido para o cosseno
         angle_cos = max(-1.0, min(angle_cos, 1.0))
-
-        # Cálculo do ângulo em radianos
         angle_rad = math.acos(angle_cos)
-
-        # Cálculo do ângulo em graus
         angle_deg = math.degrees(angle_rad)
 
         return round(angle_deg, 2)
@@ -98,3 +99,28 @@ class Mathb:
     @staticmethod
     def Distance(a, b):
         return np.sqrt((b.x - a.x)**2 + (b.y - a.y)**2)
+    
+    @staticmethod
+    def BoudingBox(landmarks):
+        if len(landmarks) == 0:
+            return {
+                "width": 0,
+                "height": 0,
+                "x": -999,
+                "y": -999
+            }
+    
+        min_x = min(landmarks, key=lambda point: point.x).x
+        max_x = max(landmarks, key=lambda point: point.x).x
+        min_y = min(landmarks, key=lambda point: point.y).y
+        max_y = max(landmarks, key=lambda point: point.y).y
+
+        width = int(max_x - min_x)
+        height = int(max_y - min_y)
+
+        return {
+            "width": width,
+            "height": height,
+            "x": int(min_x),
+            "y": int(min_y)
+        }

@@ -81,7 +81,7 @@ class Hand:
     
     @staticmethod
     def irreal():
-        return Hand([], (-999, -999))
+        return Hand([], Point(-999, -999))
 
 class HandDetector:
     """

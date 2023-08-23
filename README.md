@@ -2,52 +2,43 @@
 The Body CR make easy the body recognition using _OpenCv_ and _Mediapipe_, providing an easy interface to detect complete body and hands
 
 ### Usage
-To use the Pose detector, just import the library with `from Pose import Capture` and create a new instance of the Capture class using `capture = Capture()`. Now, to every frame capture, you need read all landmarks using `capture.Read(img)`, all landmarks was generated is in `capture.pose` (to pose detection) and `capture.hands` (to hand detection).
+To use the Pose detector, just import the library with `import BodyCR as cr` and create a new instance of the Capture class using `capture = cr.Recognize()`. Now, to every frame capture, you need read all landmarks using `capture.Read(img)`, all landmarks was generated is in `capture.pose` (to pose detection), `capture.face` (to pfaceose detection) and `capture.hands` (to hand detection, in all detection, the index 0 in the right hand and 1 is left hand).
 
 #### Full example
+
 ```python
-import cv2                           # Import the Opencv2
-import time                          # Used to calcule the FPS
-from BodyCR import Capture           # Import the capture
-from BodyCR.Utils import Draw, Point # Import the drawer and the two-dimension Point
+# Importing OpenCV and BodyCR
+import cv2
+import BodyCR as cr
 
-cap = cv2.VideoCapture(0)   # Start the video capture
-capture = Capture()         # Start the pose capture
+cap = cv2.VideoCapture(0) # Creating cv2 video capture
 
-draw = Draw()               # Start the drawer
+# Setting up the BodyCR Workspace
 
-previousTime = 0            # Used to calcule the FPS
+## Creating Base Capture
+capture = cr.Recognize.Capture(
+    pose=cr.Prefabs.POSE.normal.Mount(),
+)
+## Creating Drawer
+draw = cr.Drawer()
+## Creating the FPS Manager
+fps = cr.FPS()
 
+# Main Loop
 while True:
-    success, img = cap.read()         # Read the video capture
-    img = cv2.resize(img, (640, 480)) # Resize the image to 
+    _, img = cap.read() # Reading the camera
+    img = cv2.flip(img, 1) # Fliping the image
 
-    capture.Read(img, detectHands=True, detectBody=True) # Read the pose capture
-    draw.UpdateImage(img)                                # Update the drawer image
+    draw.UpdateImage(img) # Update inset drawer image
+    capture.Read(img, cr.Prefabs.DETECT_POSE) # Read the image with the BodyCR Capture
 
-    pose_landmarks = capture.pose                                # Get pose landmarks
-    hands_landmarks = [hand.landmarks for hand in capture.hands] # Get hands landmarks
+    draw.DrawComponent(capture.pose, cr.Pose.PoseLandmarks.POSE_CONNECTIONS) # Drawing the connections with Drawer
 
-    for landmark in pose_landmarks: # Get each pose landmark
-        draw.PutMark(landmark)      # Draw the landmark
+    fps.Update(img) # Update FPS Image
+    cv2.imshow("README Test", img) # Show the result image
 
-    for hand in hands_landmarks:    # Get each hand
-        for landmark in hand:       # Get each landmark of hand
-            draw.PutMark(landmark)  # Draw the landmark
-
-    currentTime = time.time()
-    fps = 1/(currentTime - previousTime)
-    previousTime = currentTime
-
-    draw.PutText(fps, Point(50, 50), draw.blue) # Draw the FPS
-
-    cv2.imshow("Pose Detector Test", img) # Show the image
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord("q"):
         break
 
 cv2.destroyAllWindows()
 ```
-
-### Sample project using BodyCR
-Here 

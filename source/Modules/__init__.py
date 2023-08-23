@@ -16,10 +16,10 @@
     ### Build-in Features
     1. Mathb (Math BodyCR) - Have static methods to easily math operations with landmarks, e.g. GetAngle, Normalize...
     2. Point - The basic thing on BodyCR, represent a point in a 2D plane
-    3. Draw - Allows an easy way to draw forms and texts in the OpenCV Mat
-    3. BuildDrawer - Allows an easy way to draw preformated shapes of landmarks like pose, hand and face detectors
+    3. Drawer - Allows an easy way to draw forms and texts in the OpenCV Mat
 """
 
 from ..Modules.Mathb import Mathb
-from ..Modules.Utils import Draw, Point
+from ..Modules.Utils import FPS, Point
+from ..Modules.Drawer import Drawer
 from ..Modules.gpu import ConfigureGPUs
