@@ -21,9 +21,19 @@ from ..Detectors.Holistic import HolisticDetector
 
 class Capture:
     """
-        ## BodyCR Detector
-        ### The detector class to hand capture
-        #### `BodyCR.source.Detectors.Hand`
+        ## Capture
+        The constructor of Capture class
+
+        ##### `Capture.__init__(pose: PoseConfiguration, hands: HandsConfiguration, face: FaceConfiguration, holistic: HolisticConfiguration, gpu: GPUAceleration) -> None`
+
+        -----------
+
+        ### Parameters:
+        `pose: PoseConfiguration = Prefabs.POSE.normal` - Describe how the Mediapipe Pose Solution will be instancied
+        `hands: HandsConfiguration = Prefabs.HANDS.normal` - Describe how the Mediapipe Hands Solution will be instancied
+        `face: FaceConfiguration = Prefabs.FACE.normal` - Describe how the Mediapipe FaceMesh Solution will be instancied
+        `all: HolisticConfiguration = Prefabs.ALL.normal` - Describe how the Mediapipe Holistic Solution will be instancied
+        `gpu: GPUAceleration = Prefabs.GPU_ACELERATION_NORMAL` - Describe how the GPU aceleration will be used and started
 
         ---------------
 
@@ -52,12 +62,8 @@ class Capture:
             `hands: HandsConfiguration = Prefabs.HANDS.normal` - Describe how the Mediapipe Hands Solution will be instancied
             `face: FaceConfiguration = Prefabs.FACE.normal` - Describe how the Mediapipe FaceMesh Solution will be instancied
             `all: HolisticConfiguration = Prefabs.ALL.normal` - Describe how the Mediapipe Holistic Solution will be instancied
-            `gpu: GPUAceleration = Prefabs.GPU_ACELERATION_NORMAL` - Describe how the GPU aceleration will be used and started                               | None                        |
-
-            ### Important Notes
-            1. Use more of one mode (Pose, Hands, Face and Holistic) is not recommended, this can crash your computer if selected a high configuration or can make low FPS in the run, prefer use just one of those options, if you need to use more of one of them, use only the holistic mode.
+            `gpu: GPUAceleration = Prefabs.GPU_ACELERATION_NORMAL` - Describe how the GPU aceleration will be used and started
         """
-
         if gpu["enable"]:
             ConfigureGPUs(gpu["memory_limit"], gpu["gpu_indices"], gpu["allow_growth"], gpu["per_process_gpu_memory_fraction"])
 
@@ -109,7 +115,7 @@ class Capture:
 
             ### Parameters:
                 `img: Mat` - The OpenCV Image
-                `identifier: DetectionIdentifier = Prefabs.DETECT_ALL` - Especifies the mode of recognition
+                `identifier: DetectionIdentifier = bodycr.DETECT_ALL` - Especifies the mode of recognition
         """
 
         pose, hand, face = (int(i)==1 for i in indentifier)

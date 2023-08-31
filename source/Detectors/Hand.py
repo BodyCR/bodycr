@@ -5,16 +5,25 @@ from ..Modules.Utils import Point
 from ..Detectors.landmarks import hand as HandLandmarks
 
 class Hand:
+    """
+        The representation of a hand
+    """
     UP, DOWN, RIGHT, LEFT = 1, 2, -1, -2
 
     landmarks = None
     position = None
 
     def __init__(self, landmarks: list, position: Point) -> None:
+        """
+            Creates a hand
+        """
         self.landmarks = landmarks
         self.position = position
 
     def GetOrientation(self) -> int:
+        """
+            Return the orientation of the this hand. Can be RIGHT, LEFT, UP or DOWN
+        """
         m0x, m0y = self.landmarks[0].x, self.landmarks[0].y
         m9x, m9y = self.landmarks[9].x, self.landmarks[9].y
 
@@ -27,6 +36,9 @@ class Hand:
             return self.UP if m9y < m0y else self.DOWN
     
     def GetFinger(self, finger) -> list:
+        """
+            Return the sperified finger landmarks
+        """
         if finger == 0:
             finger = 1
         finger_end = finger * 4
@@ -37,6 +49,9 @@ class Hand:
         return finger
     
     def GetFingers(self):
+        """
+            Return all fingers
+        """
         fingers = (len(self.landmarks) - 1) // 4
         result = []
 
@@ -46,6 +61,9 @@ class Hand:
         return result
 
     def GetClosedFinger(self, finger) -> bool:
+        """
+            Return if the passed finger number are closed
+        """
         f = self.GetFinger(finger)
 
         sense = 135
@@ -59,6 +77,9 @@ class Hand:
         return top < base
 
     def GetClosedFingers(self) -> list:
+        """
+            Return which finger in this hand are closed
+        """
         closed = []
         for finger in range(1, 6):
             closed.append(self.GetClosedFinger(finger))
@@ -66,6 +87,9 @@ class Hand:
         return closed
     
     def GetComposedFinger(self, landmark):
+        """
+            Return which finger the passed landmark is composed
+        """
         if landmark > 1 and landmark <= 4:
             return 1
         elif landmark > 4 and landmark <= 8:
@@ -81,13 +105,16 @@ class Hand:
     
     @staticmethod
     def irreal():
+        """
+            Return a irreal hand
+        """
         return Hand([], Point(-999, -999))
 
 class HandDetector:
     """
         ## BodyCR Detector
         ### The detector class to hand capture
-        #### `BodyCR.source.Detectors.Hand`
+        #### `bodycr.source.Detectors.Hand`
 
         ---------------
 

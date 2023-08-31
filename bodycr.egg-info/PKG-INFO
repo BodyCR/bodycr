@@ -1,0 +1,116 @@
+Metadata-Version: 2.1
+Name: bodycr
+Version: 1.0.2
+Summary: Body Capture and Recognition
+Home-page: https://github.com/BodyCR/bodycr
+Author: Lucas de Oliveira Barros Modesto
+Author-email: Lucas de Oliveira Barros Modesto <lucas.barros1804@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/BodyCR/bodycr
+Project-URL: Bug Tracker, https://github.com/BodyCR/bodycr/issues
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Requires-Python: >=3, <4
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# BodyCR: Simplifying Human Body Recognition with OpenCV and Mediapipe
+
+[![PyPI version](https://badge.fury.io/py/bodycr.svg)](https://badge.fury.io/py/bodycr)
+
+---------
+
+## Why?
+BodyCR is a user-friendly interface that simplifies the complex process of human body recognition. At its core, BodyCR leverages the powerful capabilities of OpenCV and Mediapipe to accurately detect and analyze the human body. By encapsulating these advanced tools within a user-friendly exterior, BodyCR enables users to achieve accurate and efficient body recognition without delving into the intricacies of the underlying technologies.
+
+### The Power of OpenCV and Mediapipe
+OpenCV is a widely used open-source computer vision library that provides a comprehensive set of tools for image and video analysis. Mediapipe, on the other hand, is a framework developed by Google that focuses on building customizable pipelines for various computer vision tasks. By combining the strengths of OpenCV and Mediapipe, BodyCR harnesses state-of-the-art algorithms for body detection and tracking.
+
+### Streamlined User Experience
+While OpenCV and Mediapipe offer powerful capabilities, they can be daunting for users who lack extensive experience in computer vision. BodyCR bridges this gap by offering a simplified and intuitive interface. Users do not need to have in-depth knowledge of the underlying algorithms or configurations. Instead, they can rely on BodyCR's user-friendly functions and methods to perform complex body recognition tasks.
+
+### Optimizations for Seamless Recognition
+BodyCR doesn't stop at basic body detection. It incorporates multiple layers of optimizations that enhance the accuracy and robustness of recognition. These optimizations address challenges such as varying lighting conditions, body orientations, and occlusions. By fine-tuning parameters and integrating advanced techniques, BodyCR ensures that users can achieve reliable results across diverse scenarios.
+
+### Key Features
+1. Simple Integration: BodyCR provides a straightforward integration process. Users can easily incorporate body recognition capabilities into their projects without grappling with complex setups.
+2. Real-time Tracking: Leveraging Mediapipe's capabilities, BodyCR enables real-time body tracking, making it suitable for applications requiring continuous monitoring.
+3. Pose Analysis: BodyCR goes beyond simple detection, offering detailed pose analysis. It can accurately identify joint positions and angles, opening the door for applications in fitness, posture correction, and more.
+4. Extensive Documentation: To facilitate usage, BodyCR is accompanied by thorough documentation. This documentation includes examples, tutorials, and explanations of the underlying algorithms, making it accessible for both beginners and experienced users.
+
+### Conclusion
+BodyCR empowers developers and enthusiasts to effortlessly integrate human body recognition into their projects. By abstracting the complexity of OpenCV and Mediapipe, it democratizes the use of advanced computer vision techniques. Whether you're building fitness apps, gesture-controlled systems, or interactive installations, BodyCR provides a reliable and accessible solution for accurate human body recognition.
+
+## Usage
+
+To use the BodyCR library for human body recognition, follow these steps:
+
+1. **Installation**:
+    Before you begin, make sure you have Python and pip installed on your system. You can install the BodyCR library using pip:
+
+    ```bash
+    pip install bodycr
+    ```
+
+2. **Importing Libraries and Initializing**:
+    Start by importing the required libraries and initializing the video capture:
+
+    ```python
+    import cv2
+    import bodycr as cr
+
+    cap = cv2.VideoCapture(0)  # Creating cv2 video capture
+    ```
+
+3. **Setting up BodyCR Workspace**:
+    Create a `Recognize` object to set up the BodyCR workspace. You can use predefined pose configurations:
+
+    ```python
+    capture = cr.Recognize(
+        pose=cr.Prefabs.POSE.normal.Mount(),
+    )
+    draw = cr.Drawer()
+    fps = cr.FPS()
+    ```
+
+4. **Main Loop**:
+    Implement the main loop to capture, process, and display frames. Here's a basic structure:
+
+    ```python
+    while True:
+        _, img = cap.read()  # Reading the camera
+        img = cv2.flip(img, 1)  # Flipping the image
+
+        draw.UpdateImage(img) # Updating drawer image
+        capture.Read(img, cr.DETECT_POSE) # Detecting poses in the image
+
+        draw.DrawComponent(capture.pose, cr.POSE_CONNECTIONS) # Draw the connections and landmarks of the read pose
+
+        fps.Update(img) # Show the frame fate
+        cv2.imshow("BodyCR Test", img) # Show the image in a new window
+
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
+
+    cv2.destroyAllWindows()
+    ```
+
+5. **Running the Code**:
+    Run your script. The webcam feed will display, and the BodyCR library will recognize and draw pose connections on detected human bodies in real-time. Press the "q" key to exit the application.
+
+6. **Customization and Advanced Usage**:
+    The BodyCR library provides additional features and configurations for advanced usage. You can explore the library's documentation to learn about pose analysis, customization options, and more.
+
+Remember that this example provides a basic usage scenario. Depending on your application's requirements, you can further enhance and customize the functionality provided by the BodyCR library.
+
+------------
+
+Make with 💖 by [LucasOliveiraaa](https://github.com/LucasOliveiraaa)
+
+------------
+
+###### Other thanks to ChatGPT for helping to write this README

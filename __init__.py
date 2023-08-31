@@ -28,21 +28,35 @@
     ¹ See our github page to statistics: https://github.com/LucasOliveiraaa/BodyCR#full-body-recognition
 """
 
-from BodyCR.source.Detectors import Pose
-from BodyCR.source.Detectors import Hand
-from BodyCR.source.Detectors import Face
-from BodyCR.source.Detectors import Holistic
-from BodyCR.source.Detectors import Base as Recognize
-from BodyCR.source.Detectors.configurations import Prefabs
-from BodyCR.source.Modules import gpu as GPU
-from BodyCR.source.Modules.Drawer import Drawer
-from BodyCR.source.Modules.Mathb import Mathb
-from BodyCR.source.Modules.Utils import Point
-from BodyCR.source.Modules.Utils import FPS
+from bodycr.source.Detectors import Pose
+from bodycr.source.Detectors import Hand
+from bodycr.source.Detectors import Face
+from bodycr.source.Detectors import Holistic
+from bodycr.source.Detectors import Base
+from bodycr.source.Detectors.configurations import Prefabs
+from bodycr.source.Modules import gpu as GPU
+from bodycr.source.Modules.Drawer import Drawer
+from bodycr.source.Modules.Mathb import Mathb
+from bodycr.source.Modules.Utils import Point
+from bodycr.source.Modules.Utils import FPS
+
+Recognize = Base.Capture
 
 POSE_CONNECTIONS = Pose.PoseLandmarks.POSE_CONNECTIONS
 HAND_CONNECTIONS = Hand.HandLandmarks.HAND_CONNECTIONS
 FACE_CONNECTIONS = Face.FaceMeshLandmarks.FACEMESH_CONNECTIONS
+
+DETECT_POSE      = Prefabs.DETECT_POSE
+DETECT_HAND      = Prefabs.DETECT_HAND
+DETECT_FACE      = Prefabs.DETECT_FACE
+DETECT_POSE_HAND = Prefabs.DETECT_POSE_HAND
+DETECT_POSE_FACE = Prefabs.DETECT_POSE_FACE
+DETECT_HAND_FACE = Prefabs.DETECT_HAND_FACE
+DETECT_ALL       = Prefabs.DETECT_ALL
+
+
+
+Assembly = Prefabs.Assembly
 
 class Resolutions:
     """
@@ -59,19 +73,3 @@ class Resolutions:
     QUXGA = (3200, 2400)
     HXGA = (4096, 3072)
     HUXGA = (6400, 4800)
-
-def StartRecognition(pose=Prefabs.POSE.normal.Mount(), hands=Prefabs.HANDS.normal.Mount(), face=Prefabs.FACE.normal.Mount(), all=Prefabs.ALL.normal.Mount(), gpu=Prefabs.GPU_ACELERATION.Mount(), canDraw=True):
-    """
-        @DEPRECATED
-    """
-
-    return Recognize.Capture(pose, hands, face, all, gpu), Drawer(canDraw), FPS()
-
-def Reload(img, capture, drawer, fps, read=Prefabs.DETECT_ALL):
-    """
-        @DEPRECATED
-    """
-
-    capture.Read(img, read)
-    drawer.UpdateImage(img)
-    fps.Update(img)

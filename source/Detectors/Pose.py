@@ -7,7 +7,7 @@ class PoseDetector:
     """
         ## BodyCR Detector
         ### The detector class to pose capture
-        #### `BodyCR.source.Detectors.Pose`
+        #### `bodycr.source.Detectors.Pose`
 
         ---------------
 

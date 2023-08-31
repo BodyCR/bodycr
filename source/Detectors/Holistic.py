@@ -27,7 +27,7 @@ class HolisticDetector:
     """
         ## BodyCR Detector
         ### The detector class to holistic capture
-        #### `..Detectors.Holistic`
+        #### `bodycr.source.Detectors.Holistic`
 
         ---------------
 
